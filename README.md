@@ -38,3 +38,7 @@ WatchdogSec=30             # systemd watchdog（heartbeat必要）
 MemoryMax=512M
 Environment=NODE_ENV=production
 ```
+
+## TODO
+
+↑を追加するスクリプトを書く
