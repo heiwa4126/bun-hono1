@@ -35,19 +35,24 @@ open <http://localhost:63211>
 まず、普通のユーザでこのレポジトリをcloneして、
 
 ```sh
-# 最初1回ユーザー作成し、専用のbunをインストールする
+# 最初1回ユーザー作成
 sudo scripts/create-user.sh
-```
+# つづいて 専用のbunをインストールする
+sudo scripts/install-bun.sh
 
-
-```sh
-# 初回デプロイ(先頭で clone を実行)
-./scripts/deploy.sh
+# 初回デプロイ
+sudo ./scripts/deploy.sh
 
 # service ファイルを ./var/bun-hono1.service として合成し、
 # /etc/systemd/system/bun-hono1.service へ symlink して反映
+sudo -i
+cd /opt/bun-hono1/app
 ./scripts/install-systemd-service.sh
+```
+
 
 # 更新
+sudo -i
+cd /opt/bun-hono1/app
 ./scripts/update.sh
 ```
