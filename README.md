@@ -17,7 +17,6 @@ bun run dev
 
 open <http://localhost:63211>
 
-
 ## 配置
 
 これを実際のホストに展開する案。方針は以下の通り
@@ -27,8 +26,6 @@ open <http://localhost:63211>
 - git clone と git pull で配置/更新する
 
 ### スクリプトで実行
-
-
 
 ユーザ名は `hono1` とする
 
@@ -47,12 +44,12 @@ sudo ./scripts/deploy.sh
 # /etc/systemd/system/bun-hono1.service へ symlink して反映
 sudo -i
 cd /opt/bun-hono1/app
-./scripts/install-systemd-service.sh
+bash ./scripts/install-systemd-service.sh
 ```
 
-
+```sh
 # 更新
 sudo -i
 cd /opt/bun-hono1/app
-./scripts/update.sh
+bash ./scripts/update.sh
 ```
