@@ -8,7 +8,8 @@
 		"check": "oxfmt && oxlint --fix"
 	},
 	"dependencies": {
-		"hono": "^4.12.25"
+		"hono": "^4.12.25",
+		"node-unix-socket": "^0.2.7"
 	},
 	"devDependencies": {
 		"@types/bun": "^1.3.14"

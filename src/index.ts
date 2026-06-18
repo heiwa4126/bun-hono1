@@ -1,5 +1,9 @@
+import crypto from "crypto";
+import fs from "fs";
 import { Hono } from "hono";
-import { connect } from "net";
+import { DgramSocket } from "node-unix-socket";
+import os from "os";
+import path from "path";
 
 const app = new Hono();
 
@@ -9,16 +13,49 @@ app
 	})
 	.get("/api/health", (c) => c.json({ status: "ok" }));
 
+let notifySocket: InstanceType<typeof DgramSocket> | null = null;
+
+function getNotifySocket(): InstanceType<typeof DgramSocket> | null {
+	if (notifySocket) return notifySocket;
+
+	// クライアント側もbindが必要なので、プロセス固有の一時パスにbindする
+	const bindPath = path.resolve(
+		os.tmpdir(),
+		`sd-notify-${process.pid}-${crypto.randomBytes(4).toString("hex")}.sock`,
+	);
+	try {
+		fs.unlinkSync(bindPath);
+	} catch (e) {
+		// 既存ファイルがなければ無視
+	}
+
+	const socket = new DgramSocket();
+	socket.bind(bindPath);
+
+	// プロセス終了時にソケットファイルを掃除
+	process.on("exit", () => {
+		try {
+			fs.unlinkSync(bindPath);
+		} catch (e) {}
+	});
+
+	notifySocket = socket;
+	return socket;
+}
+
 function sdNotify(message: string) {
-	const socketPath = process.env.NOTIFY_SOCKET;
-	if (!socketPath) return;
-	const sock = connect({ path: socketPath }, () => {
-		sock.write(message);
-		sock.end();
-	});
-	sock.on("error", (err) => {
+	const target = process.env.NOTIFY_SOCKET;
+	if (!target) return;
+
+	const socket = getNotifySocket();
+	if (!socket) return;
+
+	const buf = Buffer.from(message);
+	try {
+		socket.sendTo(buf, 0, buf.length, target);
+	} catch (err) {
 		console.error("sd_notify failed:", err);
-	});
+	}
 }
 
 // 起動完了をsystemdに通知（Type=notify必須）
