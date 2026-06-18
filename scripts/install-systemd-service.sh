@@ -14,7 +14,7 @@ Description=Bun Hono1
 After=network.target
 
 [Service]
-Type=simple
+Type=notify
 User=hono1
 Group=hono1
 SupplementaryGroups=www-data

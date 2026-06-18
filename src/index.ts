@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { connect } from "net";
 
 const app = new Hono();
 
@@ -8,11 +9,26 @@ app
 	})
 	.get("/api/health", (c) => c.json({ status: "ok" }));
 
-// systemd watchdog heartbeat（WatchdogSec=30 の場合、15秒ごと）
+function sdNotify(message: string) {
+	const socketPath = process.env.NOTIFY_SOCKET;
+	if (!socketPath) return;
+	const sock = connect({ path: socketPath }, () => {
+		sock.write(message);
+		sock.end();
+	});
+	sock.on("error", (err) => {
+		console.error("sd_notify failed:", err);
+	});
+}
+
+// 起動完了をsystemdに通知（Type=notify必須）
+sdNotify("READY=1");
+
+// systemd watchdog heartbeat（WatchdogSec=60 の場合、30秒ごと）
 if (process.env.WATCHDOG_USEC) {
-	const interval = Math.floor(parseInt(process.env.WATCHDOG_USEC) / 2 / 1000);
+	const interval = Math.floor(parseInt(process.env.WATCHDOG_USEC, 10) / 2 / 1000);
 	setInterval(() => {
-		Bun.spawn(["systemd-notify", "WATCHDOG=1"]);
+		sdNotify("WATCHDOG=1");
 	}, interval);
 }
 
