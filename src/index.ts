@@ -24,13 +24,15 @@ try {
 }
 
 // 2. 通知用ヘルパー関数
-function notify(state: any) {
+function notify(state: string) {
 	if (!libsystemd || !process.env.NOTIFY_SOCKET) return;
 
-	// sd_notify(0, state) を実行。0 は「環境変数をクリアしない」フラグ
-	const result = libsystemd.symbols.sd_notify(0, state);
+	// 【修正】JavaScriptの文字列を、C言語が理解できるNull終端のBufferに変換する
+	const cString = Buffer.from(state + "\0", "utf8");
 
-	// 戻り値が負の数の場合はエラー
+	// 変換した cString を渡す
+	const result = libsystemd.symbols.sd_notify(0, cString);
+
 	if (result < 0) {
 		console.error(`[systemd] Notification failed with code: ${result}`);
 	}
