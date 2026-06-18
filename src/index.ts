@@ -17,7 +17,7 @@ if (process.env.WATCHDOG_USEC) {
 }
 
 export default {
-	port: process.env.NODE_ENV === "production" ? 63211 : 63212,
+	port: process.env.NODE_ENV === "production" ? 63212 : 63211,
 	hostname: "127.0.0.1",
 	fetch: app.fetch,
 };
