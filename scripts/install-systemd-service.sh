@@ -24,11 +24,12 @@ Restart=on-failure
 RestartSec=5
 StartLimitInterval=60
 StartLimitBurst=3
-MemoryMax=512M
+MemoryMax=128M
 Environment=NODE_ENV=production
 ReadWritePaths=/var/lib/bun-hono1
 NoNewPrivileges=true
 PrivateTmp=true
+WatchdogSec=30
 
 [Install]
 WantedBy=multi-user.target
