@@ -17,7 +17,7 @@ if (process.env.WATCHDOG_USEC) {
 }
 
 export default {
-	port: 3000,
+	port: 63211,
 	hostname: "127.0.0.1",
 	fetch: app.fetch,
 };

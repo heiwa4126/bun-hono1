@@ -15,21 +15,21 @@ bun install
 bun run dev
 ```
 
-open http://localhost:3000
+open <http://localhost:63211>
 
 ## systemd のテンプレート
 
 ```conf
-# /etc/systemd/system/hono-api.service
+# /etc/systemd/system/bun-hono1.service
 [Unit]
-Description=Hono API
+Description=Bun Hono1
 After=network.target
 
 [Service]
 Type=simple
 User=www-data
-WorkingDirectory=/opt/hono-api
-ExecStart=/usr/local/bin/bun run index.ts
+WorkingDirectory=/opt/bun-hono1
+ExecStart=/usr/local/bin/bun run src/index.ts
 Restart=on-failure
 RestartSec=5
 StartLimitInterval=60
