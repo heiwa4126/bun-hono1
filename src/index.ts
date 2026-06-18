@@ -1,5 +1,5 @@
+import { execFile } from "child_process";
 import { Hono } from "hono";
-import { spawnSync } from "node:child_process";
 
 const app = new Hono();
 
@@ -9,29 +9,40 @@ app
 	})
 	.get("/api/health", (c) => c.json({ status: "ok" }));
 
-function sdNotify(args: string[]) {
+// systemdへ通知を送るヘルパー関数
+function sendSystemd(args: string[]) {
+	// systemd環境以外（ローカル開発時など NOTIFY_SOCKET が無い場合）は何もしない
 	if (!process.env.NOTIFY_SOCKET) return;
-	const result = spawnSync("/usr/bin/systemd-notify", args, { stdio: "ignore" });
-	if (result.error || result.status !== 0) {
-		console.error("sd_notify failed:", result.error ?? `exit ${result.status}`);
-	}
+
+	// OS標準のコマンドを直接実行する
+	execFile("systemd-notify", args, (error) => {
+		// コマンドが失敗してもNode.js自体は止めず、ログだけ残す
+		if (error) {
+			console.error("[systemd] Notification failed:", error.message);
+		}
+	});
 }
 
-// 起動完了をsystemdに通知（Type=notify 必須）
-sdNotify(["--ready", `--pid=${process.pid}`]);
+// ==========================================
+// 1. 起動完了をsystemdに通知（ステータス文字付き）
+// ==========================================
+sendSystemd(["--ready", "--status=Server is running"]);
 
-// systemd watchdog heartbeat（WATCHDOG_USEC の半分周期で送信）
-const watchdogUsec = parseInt(process.env.WATCHDOG_USEC ?? "", 10);
-const watchdogPid = parseInt(process.env.WATCHDOG_PID ?? "", 10);
-if (
-	Number.isFinite(watchdogUsec) &&
-	watchdogUsec > 0 &&
-	(Number.isNaN(watchdogPid) || watchdogPid === process.pid)
-) {
-	const intervalMs = Math.max(1000, Math.floor(watchdogUsec / 2 / 1000));
+// ==========================================
+// 2. Watchdog（ハートビート）のセットアップ
+// ==========================================
+// systemd側から WATCHDOG_USEC (マイクロ秒) という環境変数が渡されます
+const watchdogUsec = process.env.WATCHDOG_USEC;
+
+if (watchdogUsec) {
+	// マイクロ秒(μs) → ミリ秒(ms) に変換し、余裕を持って制限時間の「半分」の間隔でPingを打つ
+	const pingIntervalMs = Math.floor(parseInt(watchdogUsec, 10) / 1000 / 2);
+
 	setInterval(() => {
-		sdNotify(["--watchdog", `--pid=${process.pid}`]);
-	}, intervalMs).unref();
+		sendSystemd(["WATCHDOG=1"]);
+	}, pingIntervalMs);
+
+	console.log(`[systemd] Watchdog started: Pinging every ${pingIntervalMs}ms`);
 }
 
 export default {
