@@ -8,6 +8,7 @@ try {
 			args: [FFIType.i32, FFIType.cstring],
 			returns: FFIType.i32,
 			async: true, // スレッドプールで実行し、イベントループをブロックしない
+			// これは watchdog としてはどうなのか微妙。イベントループをブロックしたほうがいいかもしれない
 		},
 	});
 } catch (err) {
@@ -35,7 +36,9 @@ export async function notify(state: string): Promise<void> {
  */
 export function startWatchdog(): void {
 	process.on("SIGTERM", async () => {
-		await notify("STOPPING=1");
+		await notify("STOPPING=1").catch((err) => {
+			console.error("[systemd] stop notify failed:", err);
+		});
 		process.exit(0);
 	});
 
@@ -44,7 +47,9 @@ export function startWatchdog(): void {
 
 	const pingIntervalMs = Math.floor(parseInt(watchdogUsec, 10) / 1000 / 2);
 	setInterval(() => {
-		notify("WATCHDOG=1");
+		notify("WATCHDOG=1").catch((err) => {
+			console.error("[systemd] watchdog notify failed:", err);
+		});
 	}, pingIntervalMs);
 
 	console.log(`[systemd] Native Watchdog started: Pinging every ${pingIntervalMs}ms`);
