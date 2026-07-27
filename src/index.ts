@@ -14,7 +14,7 @@ startWatchdog();
 const server = Bun.serve({
 	port: process.env.NODE_ENV === "production" ? 63212 : 63211,
 	hostname: "127.0.0.1",
-	fetch: app.fetch,
+	fetch: app.fetch
 });
 
 await notifyReady();

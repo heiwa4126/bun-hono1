@@ -13,10 +13,10 @@ try {
 	libsystemd = dlopen("libsystemd.so.0", {
 		sd_notify: {
 			args: [FFIType.i32, FFIType.cstring],
-			returns: FFIType.i32,
+			returns: FFIType.i32
 			// async: true は削除。メインスレッドで同期実行させ、
 			// イベントループのハングアップを systemd が検知できるようにします。
-		},
+		}
 	}) as unknown as SystemdLib;
 } catch (err) {
 	console.warn(`[systemd] libsystemd.so.0 not found. Skipping notify. Error: ${err}`);
