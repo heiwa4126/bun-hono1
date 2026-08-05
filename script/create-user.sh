@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
-. ./params.sh
+. "$(dirname "$0")/params.sh"
 
 # 実行専用ユーザを作る(ログイン不可)
-sudo useradd --system --create-home --home-dir /dev/null --shell /usr/sbin/nologin "$username"
+sudo useradd --system --home-dir /dev/null --shell /usr/sbin/nologin "$username"
 
 # バイナリ置き場を作る
 sudo mkdir -p "$server_dir"
