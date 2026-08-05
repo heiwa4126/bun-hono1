@@ -35,6 +35,9 @@ bun run exec
 
 ## 配置
 
+**この項古い。**
+[配置(New!)](#配置new) へ進んで
+
 これを実際のホストに展開する案。方針は以下の通り
 
 - bun の更新の影響を避けるため、特定ユーザを作る
@@ -79,3 +82,22 @@ bash ./script/update.sh
 - やっぱり生 TS よりはバンドルの方がいいような気がするがそれだと実行するホスト上に開発環境が要るよなあ
 - [bun bundler](https://bun.com/docs/bundler) はどうだろうか
 - `bun build --compile` でコンパイルしてしまうのがよさそう
+
+## 配置(New!)
+
+実行するホスト上に bun と git は必要。
+
+レポジトリをクローンしたら、
+
+```sh
+# 最初の1回
+bun run create-user
+bun run install-app
+
+# 更新
+git pull
+bun run update-app
+
+# 削除
+bun run delete
+```
