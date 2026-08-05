@@ -12,6 +12,7 @@ sudo chmod 770 "$server_dir"
 
 # バイナリをコピー
 cp "dist/$project_name" "$server_dir"
+chmod +x "$server_dir/$project_name"
 
 # systemd サービススクリプト作成
 SERVICE_SCRIPT="$server_dir/$project_name.service"
@@ -24,18 +25,18 @@ After=network.target
 
 [Service]
 Type=notify
-User="$username"
-Group="$username"
+User=$username
+Group=$username
 SupplementaryGroups=www-data
-WorkingDirectory="$server_dir"
-ExecStart="$server_dir/$project_name"
+WorkingDirectory=$server_dir
+ExecStart=$server_dir/$project_name
 Restart=on-failure
 RestartSec=5
 StartLimitInterval=60
 StartLimitBurst=3
 MemoryMax=64M
 Environment=NODE_ENV=production
-ReadWritePaths="$server_dir"
+ReadWritePaths=$server_dir
 NoNewPrivileges=true
 PrivateTmp=true
 WatchdogSec=30
