@@ -13,8 +13,8 @@
 		"shellcheck": "shellcheck -x -s bash script/*.sh && shfmt -w script/*.sh",
 		"shfmt": "shfmt -w script/*.sh",
 		"create-user": "script/create-user.sh",
-		"install": "script/install-app.sh",
-		"update": "script/update-app.sh",
+		"install-app": "script/install-app.sh",
+		"update-app": "script/update-app.sh",
 		"status": "LANG=C systemctl status bun-hono1",
 		"journal": "LANG=C journalctl -u bun-hono1",
 		"delete": "script/delete-app.sh"
