@@ -2,7 +2,6 @@
 
 `bun create hono@latest my-app` で作った
 てきとうなウエブアプリ。
-
 簡単なリバースプロキシのテスト用。
 
 のはずだったんだけど、systemd の watchdog の heartbeat に bun:ffi で対応しました。
@@ -38,6 +37,8 @@ bun run exec
 `bun build --compile` で実行ファイル化して systemd で動かす。
 
 実行するホスト上に bun と git は必要。
+頑張ればローカルでコンパイルして1バイナリだけ転送、もできないことはないけど、
+更新がめんどくさすぎるので、bun と git だけは勘弁してください。
 
 レポジトリをクローンしたら、
 
