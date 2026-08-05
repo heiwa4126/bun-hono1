@@ -15,7 +15,7 @@ cp "dist/$project_name" "$server_dir"
 
 # systemd サービススクリプト作成
 SERVICE_SCRIPT="$server_dir/$project_name.service"
-cat >"$SERVICE_SCRIPT" <<"EOF"
+cat >"$SERVICE_SCRIPT" <<EOF
 [Unit]
 Description=$project_name
 After=network.target
