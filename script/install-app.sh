@@ -15,6 +15,8 @@ cp "dist/$project_name" "$server_dir"
 
 # systemd サービススクリプト作成
 SERVICE_SCRIPT="$server_dir/$project_name.service"
+SERVICE_LINK="/etc/systemd/system/$project_name.service"
+
 cat >"$SERVICE_SCRIPT" <<EOF
 [Unit]
 Description=$project_name
@@ -41,3 +43,8 @@ WatchdogSec=30
 [Install]
 WantedBy=multi-user.target
 EOF
+
+sudo ln -sfn "$SERVICE_SCRIPT" "$SERVICE_LINK"
+sudo systemctl daemon-reload
+sudo systemctl enable --now "$project_name.service"
+sudo systemctl status "$project_name.service" --no-pager
