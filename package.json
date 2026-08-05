@@ -8,7 +8,7 @@
 		"check": "oxfmt && oxlint --fix",
 		"build": "bun build ./src/index.ts --outfile ./dist/index.js --minify --target bun",
 		"preview": "bun run ./dist/index.js",
-		"compile": "bun build ./src/index.ts --minify --target bun --outfile dist/bun-hono1",
+		"compile": "bun build ./src/index.ts --minify --target bun --compile --outfile dist/bun-hono1",
 		"exec": "./dist/bun-hono1",
 		"shellcheck": "shellcheck -x -s bash script/*.sh && shfmt -w script/*.sh",
 		"shfmt": "shfmt -w script/*.sh"
