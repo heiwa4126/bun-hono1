@@ -19,4 +19,4 @@ systemctl status --no-pager "$unit_name" || true
 
 echo
 echo "== systemd security report (${unit_name}) =="
-systemd-analyze security --no-pager --full "$unit_name"
+systemd-analyze security --no-pager "$unit_name"
