@@ -11,7 +11,11 @@ app
 
 startWatchdog();
 
+console.log(process.env);
+console.log(process.env.NODE_ENV);
+
 const port = process.env.NODE_ENV === "production" ? 63212 : 63211;
+
 const hostname = "127.0.0.1";
 
 const server = Bun.serve({

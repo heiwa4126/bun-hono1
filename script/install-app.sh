@@ -35,7 +35,8 @@ RestartSec=5
 StartLimitInterval=60
 StartLimitBurst=3
 MemoryMax=64M
-Environment=NODE_ENV=production
+Environment="LANG=C"
+Environment="NODE_ENV=production"
 ReadWritePaths=$server_dir
 NoNewPrivileges=true
 PrivateTmp=true

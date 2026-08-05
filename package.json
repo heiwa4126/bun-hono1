@@ -11,7 +11,9 @@
 		"compile": "bun build ./src/index.ts --minify --target bun --compile --outfile dist/bun-hono1",
 		"exec": "./dist/bun-hono1",
 		"shellcheck": "shellcheck -x -s bash script/*.sh && shfmt -w script/*.sh",
-		"shfmt": "shfmt -w script/*.sh"
+		"shfmt": "shfmt -w script/*.sh",
+    "status": "systemctl status bun-hono1",
+    "journal": "journalctl -u bun-hono1"
 	},
 	"dependencies": {
 		"hono": "^4.13.0"
