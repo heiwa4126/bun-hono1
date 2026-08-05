@@ -19,7 +19,7 @@ bun run dev
 
 open <http://localhost:63211>
 
-ポートは環境変数PORTで変更できる (デフォルト:63211)
+ポートは環境変数 PORT で変更できる (デフォルト:63211)
 
 ### バンドル関係
 
@@ -53,3 +53,13 @@ bun run update-app
 # 削除
 bun run delete
 ```
+
+## systemdスクリプトのセキュリティ
+
+実機で create-user & install-app したら
+
+```sh
+bun run security
+```
+
+を実行し、その出力を AI と相談すると、よりセキュアになって良い。
