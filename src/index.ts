@@ -4,19 +4,23 @@ import { notifyReady, startWatchdog } from "./systemd";
 const app = new Hono();
 
 app
-	.get("/", (c) => {
+	.get("/hello", (c) => {
 		return c.text("Hello Hono!");
 	})
-	.get("/api/health", (c) => c.json({ status: "ok" }));
+	.get("/health", (c) => c.json({ status: "ok" }));
 
 startWatchdog();
 
+const port = process.env.NODE_ENV === "production" ? 63212 : 63211;
+const hostname = "127.0.0.1";
+
 const server = Bun.serve({
-	port: process.env.NODE_ENV === "production" ? 63212 : 63211,
-	hostname: "127.0.0.1",
+	port,
+	hostname,
 	fetch: app.fetch
 });
+console.log(`bun-hono1 is running on http://${hostname}:${port}`);
 
-await notifyReady();
+notifyReady();
 
 export default server;

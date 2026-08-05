@@ -11,13 +11,27 @@
 
 ```sh
 # To install dependencies:
-bun install
+bun ci
 
 # To run:
 bun run dev
 ```
 
 open <http://localhost:63211>
+
+### バンドル関係
+
+[更新案](#更新案) のところ参照
+
+```sh
+# ソースレベルでバンドルして実行
+bun run build
+bun run preview
+
+# 実行ファイル化して実行
+bun run compile
+bun run exec
+```
 
 ## 配置
 
@@ -35,23 +49,31 @@ open <http://localhost:63211>
 
 ```sh
 # 最初1回ユーザー作成
-sudo scripts/create-user.sh
+sudo script/create-user.sh
 # つづいて 専用のbunをインストールする
-sudo scripts/install-bun.sh
+sudo script/install-bun.sh
 
 # 初回デプロイ
-sudo ./scripts/deploy.sh
+sudo ./script/deploy.sh
 
 # service ファイルを ./var/bun-hono1.service として合成し、
 # /etc/systemd/system/bun-hono1.service へ symlink して反映
 sudo -i
 cd /opt/bun-hono1/app
-bash ./scripts/install-systemd-service.sh
+bash ./script/install-systemd-service.sh
 ```
 
 ```sh
 # 更新
 sudo -i
 cd /opt/bun-hono1/app
-bash ./scripts/update.sh
+bash ./script/update.sh
 ```
+
+## 更新案
+
+どうも systemd 化する部分がいやなので少し考える。
+
+- やっぱり生 TS よりはバンドルの方がいいような気がするがそれだと実行するホスト上に開発環境が要るよなあ
+- [bun bundler](https://bun.com/docs/bundler) はどうだろうか
+- `bun build --compile` でコンパイルしてしまうのがよさそう
