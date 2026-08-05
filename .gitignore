@@ -3,3 +3,7 @@ node_modules/
 var/
 
 dist/
+
+tmp/
+tmp*
+*.tmp

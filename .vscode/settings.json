@@ -1,3 +1,9 @@
 {
-	"cSpell.words": ["cstring", "hono", "libsystemd", "nologin", "Usec", "usermod", "WATCHDOG_USEC"]
+	"cSpell.words": ["cstring", "hono", "libsystemd", "nologin", "Usec", "usermod", "WATCHDOG_USEC"],
+	"chat.tools.terminal.autoApprove": {
+		"/^bun run shellcheck$/": {
+			"approve": true,
+			"matchCommandLine": true
+		}
+	}
 }

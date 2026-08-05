@@ -16,6 +16,7 @@
 		"install-app": "script/install-app.sh",
 		"update-app": "script/update-app.sh",
 		"status": "LANG=C systemctl status bun-hono1",
+		"security": "script/systemd-security.sh",
 		"journal": "LANG=C journalctl -u bun-hono1",
 		"delete": "script/delete-app.sh"
 	},
