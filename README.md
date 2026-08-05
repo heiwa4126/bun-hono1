@@ -63,3 +63,18 @@ bun run security
 ```
 
 を実行し、その出力を AI と相談すると、よりセキュアになって良い。
+
+いまのところ
+
+```conf
+RestrictAddressFamilies=AF_UNIX AF_INET
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1
+```
+
+で、ホスト内で動いてるサービスに
+
+- "127.0.0.1:port"
+- UNIX Socket
+
+でつなぐことしかできないようにしてある。
