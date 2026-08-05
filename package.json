@@ -9,7 +9,8 @@
 		"build": "bun build ./src/index.ts --outfile ./dist/index.js --minify --target bun",
 		"preview": "bun run ./dist/index.js",
 		"compile": "bun build ./src/index.ts --minify --target bun --outfile dist/bun-hono1",
-		"exec": "./dist/bun-hono1"
+		"exec": "./dist/bun-hono1",
+		"shellcheck": "shellcheck -s bash script/*.sh && shfmt -w script/*.sh"
 	},
 	"dependencies": {
 		"hono": "^4.13.0"
