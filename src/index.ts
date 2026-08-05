@@ -13,8 +13,9 @@ startWatchdog();
 
 console.log(process.env);
 console.log(process.env.NODE_ENV);
+console.log(process.env.PORT);
 
-const port = process.env.NODE_ENV === "production" ? 63212 : 63211;
+const port = Number.parseInt(process.env.PORT ?? "63211", 10);
 
 const hostname = "127.0.0.1";
 

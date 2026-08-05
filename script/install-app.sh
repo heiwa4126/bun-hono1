@@ -36,6 +36,7 @@ StartLimitInterval=60
 StartLimitBurst=3
 MemoryMax=64M
 Environment="LANG=C"
+Environment="PORT=63212"
 Environment="NODE_ENV=production"
 ReadWritePaths=$server_dir
 NoNewPrivileges=true
