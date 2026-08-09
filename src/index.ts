@@ -7,7 +7,11 @@ app
 	.get("/hello", (c) => {
 		return c.text("Hello Hono!");
 	})
-	.get("/health", (c) => c.json({ status: "ok" }));
+	.get("/health", (c) => c.json({ status: "ok" }))
+	.post("/echo", async (c) => {
+		const payload = await c.req.text();
+		return c.json({ timestamp: Date.now(), payload });
+	});
 
 startWatchdog();
 
