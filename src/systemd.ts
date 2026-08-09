@@ -69,6 +69,6 @@ export function startWatchdog(): void {
 /**
  * サーバーがポートをバインドした後に呼び出す。
  */
-export function notifyReady(status = "App is running natively via bun:ffi"): void {
+export function notifyReady(status = "App is running..."): void {
 	notify(`READY=1\nSTATUS=${status}`);
 }
