@@ -23,6 +23,9 @@ open <http://localhost:63211>
 ### バンドル関係
 
 ```sh
+# esbuild で中間バンドルを作る
+bun run build-es
+
 # ソースレベルでバンドルして実行
 bun run build
 bun run preview

@@ -4,6 +4,10 @@
 		"/^bun run shellcheck$/": {
 			"approve": true,
 			"matchCommandLine": true
+		},
+		"/^bun run build-es$/": {
+			"approve": true,
+			"matchCommandLine": true
 		}
 	}
 }

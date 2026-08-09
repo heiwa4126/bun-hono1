@@ -7,6 +7,9 @@
 		"lint": "oxlint",
 		"check": "oxfmt && oxlint --fix",
 		"build": "bun build ./src/index.ts --outfile ./dist/index.js --minify --target bun",
+		"build-es:1": "esbuild ./src/index.ts --bundle --format=esm --target=esnext --outfile=./tmp/index.js --external:bun:ffi",
+		"build-es:2": "bun build ./tmp/index.js --outfile ./dist/index.js --minify --target bun",
+		"build-es": "bun run --sequential build-es:1 build-es:2",
 		"preview": "bun run ./dist/index.js",
 		"compile": "bun build ./src/index.ts --minify --target bun --compile --outfile dist/bun-hono1",
 		"exec": "./dist/bun-hono1",
@@ -21,9 +24,11 @@
 		"delete": "script/delete-app.sh"
 	},
 	"dependencies": {
+		"@heiwa4126/order-schema": "link:@heiwa4126/order-schema",
 		"hono": "^4.13.1"
 	},
 	"devDependencies": {
-		"@types/bun": "^1.3.14"
+		"@types/bun": "^1.3.14",
+		"esbuild": "^0.28.1"
 	}
 }
